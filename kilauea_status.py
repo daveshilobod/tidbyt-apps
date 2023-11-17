@@ -1,6 +1,11 @@
 import requests
 import re
 
+def remove_html_tags(text):
+    # remove the html tags from the text
+    clean = re.compile('<.*?>')
+    return re.sub(clean, '', text)
+
 def fetch_kilauea_update():
     url = "https://www.usgs.gov/programs/VHP/volcano-updates#elevated"
     
@@ -18,7 +23,10 @@ def fetch_kilauea_update():
 
     update_text = kilauea_match.group(1).strip()
     
+    # Remove html tags
+    update_text = remove_html_tags(update_text)
+
     return update_text
 
-# print update
+# Print update
 print(fetch_kilauea_update())
